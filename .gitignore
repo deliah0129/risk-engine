@@ -30,9 +30,12 @@ Thumbs.db
 # Project-specific
 # =========================
 # Logs are runtime output (do not version)
-logs/
-*.log
-*.txt
+logs/*
+logs/**/*.log
+
+# State is persisted runtime data (do not version)
+state/*
+
 
 # State is persisted runtime data (do not version)
 state/
