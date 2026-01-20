@@ -51,7 +51,7 @@ persisting runtime state between executions to support deterministic replay and 
 | Program Exit           |
 | (deterministic outcome)|
 +------------------------+
-
+```
 
 ---
 
