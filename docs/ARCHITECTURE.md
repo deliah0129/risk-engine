@@ -13,60 +13,68 @@ persisting runtime state between executions to support deterministic replay and 
 
 ## High-Level Execution Flow
 
-┌───────────────────────────┐
-│           main.py         │
-│        (entry point)      │
-└─────────────┬─────────────┘
-              │
-              v
-┌───────────────────────────┐
-│   Load / Initialize State │
-│  (from persisted storage)│
-└─────────────┬─────────────┘
-              │
-              v
-┌───────────────────────────┐
-│     Phase Dispatcher      │
-│  (deterministic ordering) │
-└─────────────┬─────────────┘
-              │
-              v
-┌───────────────────────────┐
-│     Execution Phases      │
-│   (phases/*.py modules)   │
-│   - phase1                │
-│   - phase2                │
-│   - phaseN                │
-└─────────────┬─────────────┘
-              │
-              v
-┌───────────────────────────┐
-│   Persist Updated State   │
-│   + Optional Execution    │
-│           Logs            │
-└─────────────┬─────────────┘
-              │
-              v
-┌───────────────────────────┐
-│        Program Exit       │
-│  (deterministic outcome)  │
-└───────────────────────────┘
++----------------------+
+| main.py |
+| (entry point) |
++----------+-----------+
+|
+v
++----------------------+
+| Load / Initialize |
+| State |
+| (from persisted |
+| storage) |
++----------+-----------+
+|
+v
++----------------------+
+| Phase Dispatcher |
+| (deterministic |
+| ordering) |
++----------+-----------+
+|
+v
++----------------------+
+| Execution Phases |
+| (phases/*.py) |
+| - phase1 |
+| - phase2 |
+| - phaseN |
++----------+-----------+
+|
+v
++----------------------+
+| Persist Updated |
+| State |
+| + Optional Execution |
+| Logs |
++----------+-----------+
+|
+v
++----------------------+
+| Program Exit |
+| (deterministic |
+| outcome) |
++----------------------+
 
 ---
 
 ## Core Design Principles
 
 ### Phase-Based Execution
+
 - Each phase represents a discrete step in the simulation lifecycle.
 - Phases are executed sequentially and intentionally kept simple.
 - New behavior is introduced by adding phases, not modifying control flow.
 
 ### Deterministic State
+
 - Runtime state is persisted to disk between executions.
 - State persistence enables replay, inspection, and debugging.
 - No hidden or implicit in-memory state is relied upon across runs.
 
 ### Governance-Oriented Structure
+
 - Execution rules are explicit rather than emergent.
 - Predictability and traceability are favored over dynamic behavior.
 - The system is suitable for experimentation with rule-driven engines.
@@ -87,6 +95,7 @@ These constraints are intentional and define the scope of the playable slice.
 ## Extension Points
 
 Future iterations may introduce:
+
 - Additional execution phases
 - Scenario or rule modules
 - State validation layers
