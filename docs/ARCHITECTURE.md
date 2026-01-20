@@ -10,6 +10,7 @@ The engine operates as a linear execution loop that advances through clearly def
 persisting runtime state between executions to support deterministic replay and auditability.
 
 ---
+```text
 
 ## High-Level Execution Flow
 +------------------------+
@@ -50,6 +51,7 @@ persisting runtime state between executions to support deterministic replay and 
 | Program Exit           |
 | (deterministic outcome)|
 +------------------------+
+
 
 ---
 
