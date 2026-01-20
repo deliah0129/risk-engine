@@ -12,50 +12,44 @@ persisting runtime state between executions to support deterministic replay and 
 ---
 
 ## High-Level Execution Flow
-
-+----------------------+
-| main.py |
-| (entry point) |
-+----------+-----------+
-|
-v
-+----------------------+
-| Load / Initialize |
-| State |
-| (from persisted |
-| storage) |
-+----------+-----------+
-|
-v
-+----------------------+
-| Phase Dispatcher |
-| (deterministic |
-| ordering) |
-+----------+-----------+
-|
-v
-+----------------------+
-| Execution Phases |
-| (phases/*.py) |
-| - phase1 |
-| - phase2 |
-| - phaseN |
-+----------+-----------+
-|
-v
-+----------------------+
-| Persist Updated |
-| State |
-| + Optional Execution |
-| Logs |
-+----------+-----------+
-|
-v
-+----------------------+
-| Program Exit |
-| (deterministic |
-| outcome) |
-+----------------------+
++------------------------+
+| main.py                |
+| (entry point)          |
++------------------------+
+            |
+            v
++------------------------+
+| Load / Initialize State|
+| (from persisted storage)|
++------------------------+
+            |
+            v
++------------------------+
+| Phase Dispatcher       |
+| (deterministic ordering)|
++------------------------+
+            |
+            v
++------------------------+
+| Execution Phases       |
+| (phases/*.py modules)  |
+|  - phase1              |
+|  - phase2              |
+|  - phaseN              |
++------------------------+
+            |
+            v
++------------------------+
+| Persist Updated State  |
+| + Optional Execution   |
+| Logs                   |
++------------------------+
+            |
+            v
++------------------------+
+| Program Exit           |
+| (deterministic outcome)|
++------------------------+
 
 ---
 
