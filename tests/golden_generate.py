@@ -1,34 +1,40 @@
+import argparse
 import json
 from pathlib import Path
 
-from derived.consequence_extractor import extract_consequences
-from tests.fixtures import sample_events
+from main import load_json
+from phases.phase1 import run_phase1  # if this name differs, change it here
+
+GOLDEN_DIR = Path(__file__).parent / "golden"
+SESSION_PATH = Path("state/session.json")
 
 
 def main() -> None:
-    base = Path(__file__).parent / "golden"
-    base.mkdir(parents=True, exist_ok=True)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--window", type=int, required=True)
+    args = parser.parse_args()
 
-    events = sample_events()
+    # Ensure golden dir exists
+    GOLDEN_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Keep v0.1 file name as the canonical window=5 golden
-    windows = (3, 5, 10)
+    # Ensure session exists (Phase 0 must have been CONFIRMED)
+    if not SESSION_PATH.exists():
+        raise FileNotFoundError(
+            f"Missing {SESSION_PATH}. Run: python main.py  -> CONFIRM (Phase 0) first."
+        )
 
-    for window in windows:
-        results = extract_consequences(events, current_turn=10, window=window)
+    session = load_json(SESSION_PATH)
 
-        observed = {
-            actor: {"tags": state.tags}
-            for actor, state in results.items()
-        }
+    consequences = run_phase1(
+        session=session,
+        window=args.window,
+        record_consequences=True,
+    )
 
-        if window == 5:
-            path = base / "consequences_turn_10.json"
-        else:
-            path = base / f"consequences_turn_10_window_{window}.json"
+    out_path = GOLDEN_DIR / f"consequences_turn_{args.window}.json"
+    out_path.write_text(json.dumps(consequences, indent=2), encoding="utf-8")
 
-        path.write_text(json.dumps(observed, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-        print(f"Wrote {path}")
+    print(f"[OK] wrote {out_path}")
 
 
 if __name__ == "__main__":
