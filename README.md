@@ -1,40 +1,47 @@
-Risk Engine — Playable Slice v0.1
+## Current State: Engine Slice (Governed Simulation Core)
 
-This repository contains a verified, playable slice of a deterministic strategy
-simulation engine.
+This repository represents a **governed engine slice**, not a traditional “playable game demo.”
 
-This release represents a complete implementation of the engine’s foundational
-layer: a phase-based execution loop, persisted runtime state, and explicit
-governance constraints. The focus is execution integrity and structural clarity,
-not feature completeness.
+At its current stage, the project implements the **core execution infrastructure** for a larger simulation system. The focus is on correctness, rule enforcement, and safe state progression, rather than user interaction or presentation.
 
-The system is intentionally designed to make invalid or ambiguous execution
-difficult by default. All state transitions are ordered, auditable, and governed
-by explicit rules.
+The engine is designed to:
+- Enforce strict phase order and execution rules
+- Persist and validate session state across runs
+- Refuse invalid execution paths instead of attempting recovery
+- Produce audit-friendly logs for inspection and testing
+- Support deterministic behavior and repeatable runs
 
-What this release is:
-- A deterministic, phase-governed simulation engine core
-- A stateful execution loop with enforced ordering
-- A rules- and constraints-first architecture
-- A stable foundation suitable for extension or evaluation
+This slice is intentionally **infrastructure-first**.
 
-What this release is not:
-- A finished game
-- A UI-driven application
-- A content-complete simulation
+---
 
-Those layers are deliberately out of scope for this version.
+## What “Engine Slice” Means
 
-Intended use:
-- Systems and engine design exploration
-- Deterministic simulation experimentation
-- Governance- and rules-driven architecture work
-- Educational, evaluative, or professional reference
+An *engine slice* is a minimal but complete portion of the system that can be executed end-to-end and evaluated on its own.
 
-Future releases may expand scenarios, tooling, or interfaces while preserving
-the core execution model established here.
+In practical terms, this means:
+- The engine can start, halt, resume, and advance safely
+- State transitions occur only at defined resolution points
+- Invalid actions or phase skips are explicitly blocked
+- The system can be extended without refactoring the core
 
-Status:
-- Version: v0.1
-- Scope: Foundational playable slice
-- Stability: Verified
+This mirrors how real systems are built in practice, where control logic and governance are validated before any UI, automation, or content layers are added.
+
+---
+
+## What Is Intentionally Not Included (Yet)
+
+This slice does **not** include:
+- A graphical interface
+- Player interaction loops
+- Visualization or presentation layers
+- Autonomous agents making decisions on their own
+
+These are downstream consumers of the engine and are excluded by design, not omission.
+
+---
+
+## How to Run
+
+```bash
+py main.py
