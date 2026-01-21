@@ -45,3 +45,44 @@ These are downstream consumers of the engine and are excluded by design, not omi
 
 ```bash
 py main.py
+```
+
+---
+
+## Stress Testing Suite
+
+The repository includes a comprehensive stress testing suite to validate engine performance, reliability, and deterministic behavior.
+
+### Quick Test (Windows)
+
+```bash
+QUICK_STRESS_TEST.bat
+```
+
+### Interactive Menu (Windows)
+
+```bash
+STRESS_TEST.bat
+```
+
+### Command Line (All Platforms)
+
+```bash
+# Run all tests
+python stress_test.py --test all
+
+# Run specific test suites
+python stress_test.py --test sequential --iterations 100
+python stress_test.py --test concurrent --sessions 10
+python stress_test.py --test persistence --cycles 50
+python stress_test.py --test determinism --runs 10
+```
+
+### Test Suites
+
+1. **Sequential Throughput** - Measures execution performance and throughput
+2. **Concurrent Sessions** - Tests concurrent execution handling
+3. **State Persistence** - Validates I/O performance and data integrity
+4. **Determinism Verification** - Confirms reproducible behavior
+
+Results are saved to `stress_test_results/` with detailed JSON output
