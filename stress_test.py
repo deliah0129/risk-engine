@@ -197,10 +197,7 @@ def test_sequential_throughput(iterations: int = 100) -> dict:
 # =========================
 
 def run_concurrent_session(session_id: int, iterations: int) -> dict:
-    """Run a single concurrent session with isolated state."""
-    session_dir = ENGINE_ROOT / f"stress_session_{session_id}"
-    session_dir.mkdir(exist_ok=True)
-    
+    """Run a single concurrent session."""
     results = []
     successes = 0
     failures = 0
@@ -208,7 +205,6 @@ def run_concurrent_session(session_id: int, iterations: int) -> dict:
     for i in range(iterations):
         start = time.time()
         try:
-            # Run with isolated state directory
             result = subprocess.run(
                 [sys.executable, "main.py"],
                 cwd=ENGINE_ROOT,
@@ -239,10 +235,6 @@ def run_concurrent_session(session_id: int, iterations: int) -> dict:
                 "error": str(e)
             })
     
-    # Cleanup
-    if session_dir.exists():
-        shutil.rmtree(session_dir)
-    
     return {
         "session_id": session_id,
         "iterations": iterations,
@@ -253,13 +245,16 @@ def run_concurrent_session(session_id: int, iterations: int) -> dict:
 
 def test_concurrent_sessions(sessions: int = 10, iterations_per_session: int = 10) -> dict:
     """
-    Run multiple concurrent sessions to test thread safety.
+    Run multiple concurrent sessions to test concurrent execution handling.
     
     Measures:
     - Concurrent execution handling
-    - State isolation
-    - Thread safety
+    - Thread safety of test harness
     - Concurrent throughput
+    
+    Note: Sessions share the same state directory as the engine uses
+    a fixed state location. This tests the engine's ability to handle
+    concurrent invocations.
     """
     print("\n" + "=" * 70)
     print("TEST SUITE 2: CONCURRENT SESSIONS TEST")
@@ -553,6 +548,12 @@ def main():
         default=50,
         help="Number of cycles for persistence test (default: 50)"
     )
+    parser.add_argument(
+        "--runs",
+        type=int,
+        default=10,
+        help="Number of runs for determinism test (default: 10)"
+    )
     
     args = parser.parse_args()
     
@@ -583,7 +584,7 @@ def main():
             all_results["state_persistence"] = result
         
         if args.test in ["all", "determinism"]:
-            result = test_determinism()
+            result = test_determinism(args.runs)
             all_results["determinism_verification"] = result
         
         # Save combined results
@@ -595,7 +596,8 @@ def main():
                     "test": args.test,
                     "iterations": args.iterations,
                     "sessions": args.sessions,
-                    "cycles": args.cycles
+                    "cycles": args.cycles,
+                    "runs": args.runs
                 },
                 "results": all_results
             }

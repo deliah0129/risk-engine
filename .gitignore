@@ -47,4 +47,3 @@ state/*
 # Stress test artifacts (generated during stress testing; never versioned)
 stress_test_results/
 state_backup/
-stress_session_*/

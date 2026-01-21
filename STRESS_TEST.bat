@@ -111,7 +111,7 @@ if errorlevel 4 (
     set TEST_TYPE=determinism
     set /p PARAM="Enter number of runs [10]: "
     if "!PARAM!"=="" set PARAM=10
-    python stress_test.py --test !TEST_TYPE! --iterations !PARAM!
+    python stress_test.py --test !TEST_TYPE! --runs !PARAM!
 ) else if errorlevel 3 (
     set TEST_TYPE=persistence
     set /p PARAM="Enter number of cycles [50]: "
