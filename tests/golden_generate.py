@@ -3,9 +3,9 @@ import json
 from pathlib import Path
 
 from main import load_json
-from phases.phase1 import run_phase1  # if this name differs, change it here
+from phases.phase1 import run_phase1
 
-GOLDEN_DIR = Path(__file__).parent / "golden"
+GOLDEN_DIR = Path("tests/golden")
 SESSION_PATH = Path("state/session.json")
 
 
@@ -14,14 +14,13 @@ def main() -> None:
     parser.add_argument("--window", type=int, required=True)
     args = parser.parse_args()
 
-    # Ensure golden dir exists
-    GOLDEN_DIR.mkdir(parents=True, exist_ok=True)
-
-    # Ensure session exists (Phase 0 must have been CONFIRMED)
+    # Guardrails
     if not SESSION_PATH.exists():
         raise FileNotFoundError(
-            f"Missing {SESSION_PATH}. Run: python main.py  -> CONFIRM (Phase 0) first."
+            "state/session.json not found. Run `python main.py` and CONFIRM Phase 0 first."
         )
+
+    GOLDEN_DIR.mkdir(parents=True, exist_ok=True)
 
     session = load_json(SESSION_PATH)
 
