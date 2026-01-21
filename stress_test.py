@@ -43,7 +43,7 @@ def utc_now() -> str:
 
 def backup_state() -> Path:
     """Backup state directory with timestamp."""
-    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S_%f")
     backup_path = BACKUP_DIR / f"backup_{timestamp}"
     
     if STATE_DIR.exists():
