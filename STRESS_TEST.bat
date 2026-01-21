@@ -85,7 +85,7 @@ echo ========================================
 echo Running Determinism Verification...
 echo ========================================
 echo.
-python stress_test.py --test determinism
+python stress_test.py --test determinism --runs 10
 echo.
 echo ========================================
 echo Press any key to return to menu...

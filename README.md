@@ -75,13 +75,13 @@ python stress_test.py --test all
 python stress_test.py --test sequential --iterations 100
 python stress_test.py --test concurrent --sessions 10
 python stress_test.py --test persistence --cycles 50
-python stress_test.py --test determinism
+python stress_test.py --test determinism --runs 10
 ```
 
 ### Test Suites
 
 1. **Sequential Throughput** - Measures execution performance and throughput
-2. **Concurrent Sessions** - Tests thread safety and state isolation
+2. **Concurrent Sessions** - Tests concurrent execution handling
 3. **State Persistence** - Validates I/O performance and data integrity
 4. **Determinism Verification** - Confirms reproducible behavior
 
