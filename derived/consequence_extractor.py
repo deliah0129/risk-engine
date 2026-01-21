@@ -207,3 +207,18 @@ def extract_consequences(
                 signal="dominance_margin",
                 value=margin,
                 threshold=DOMINANCE_MARGIN,
+                window=window,
+                turns=turns_used,
+            ))
+
+            results[top_id] = ConsequenceState(
+                actor_id=top.actor_id,
+                window=top.window,
+                computed_turn=top.computed_turn,
+                signals=top.signals,
+                indices=new_indices,
+                tags=new_tags,
+                evidence=new_evidence,
+            )
+
+    return results
