@@ -43,5 +43,29 @@ These are downstream consumers of the engine and are excluded by design, not omi
 
 ## How to Run
 
+### Run the Engine
+
 ```bash
 py main.py
+```
+
+### Run Stress Tests
+
+To validate performance and correctness of the consequence extraction system under load:
+
+```bash
+# Run default multi-configuration stress test
+python tests/stress_test.py
+
+# Run custom stress test with specific parameters
+python tests/stress_test.py --actors 50 --turns 100 --events-per-turn 20 --window 10
+
+# See all available options
+python tests/stress_test.py --help
+```
+
+The stress test will:
+- Generate synthetic event streams with many actors and events
+- Run consequence extraction under load
+- Print detailed performance metrics and results
+- Show tag distribution across analyzed actors

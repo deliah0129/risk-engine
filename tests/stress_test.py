@@ -166,29 +166,72 @@ def main():
     """
     Run stress test with multiple configurations and print results.
     """
-    # Test configuration
-    test_configs = [
-        {"num_actors": 50, "num_turns": 100, "events_per_turn": 20, "window": 10},
-        {"num_actors": 100, "num_turns": 200, "events_per_turn": 30, "window": 15},
-    ]
+    import argparse
     
-    all_results = []
+    parser = argparse.ArgumentParser(
+        description="Run stress test on consequence extraction system"
+    )
+    parser.add_argument(
+        "--actors", 
+        type=int, 
+        default=None,
+        help="Number of actors to simulate (default: runs multiple configs)"
+    )
+    parser.add_argument(
+        "--turns", 
+        type=int, 
+        default=100,
+        help="Number of turns to simulate (default: 100)"
+    )
+    parser.add_argument(
+        "--events-per-turn", 
+        type=int, 
+        default=20,
+        help="Events per turn (default: 20)"
+    )
+    parser.add_argument(
+        "--window", 
+        type=int, 
+        default=10,
+        help="Analysis window size (default: 10)"
+    )
     
-    for config in test_configs:
+    args = parser.parse_args()
+    
+    if args.actors is not None:
+        # Single configuration test
+        config = {
+            "num_actors": args.actors,
+            "num_turns": args.turns,
+            "events_per_turn": args.events_per_turn,
+            "window": args.window
+        }
         stats = run_stress_test(**config)
         print_stress_test_results(stats)
-        all_results.append(stats)
-    
-    # Print summary comparison
-    if len(all_results) > 1:
-        print(f"\n{'='*70}")
-        print("COMPARATIVE SUMMARY")
-        print(f"{'='*70}\n")
-        for i, stats in enumerate(all_results, 1):
-            print(f"Test {i}:")
-            print(f"  - Scale: {stats['total_events']} events, {stats['actors_analyzed']} actors")
-            print(f"  - Performance: {stats['extraction_time_s']:.3f}s ({stats['events_per_second']:.1f} events/s)")
-        print()
+    else:
+        # Test configuration
+        test_configs = [
+            {"num_actors": 50, "num_turns": 100, "events_per_turn": 20, "window": 10},
+            {"num_actors": 100, "num_turns": 200, "events_per_turn": 30, "window": 15},
+        ]
+        
+        all_results = []
+        
+        for config in test_configs:
+            stats = run_stress_test(**config)
+            print_stress_test_results(stats)
+            all_results.append(stats)
+        
+        # Print summary comparison
+        if len(all_results) > 1:
+            print(f"\n{'='*70}")
+            print("COMPARATIVE SUMMARY")
+            print(f"{'='*70}\n")
+            for i, stats in enumerate(all_results, 1):
+                print(f"Test {i}:")
+                print(f"  - Scale: {stats['total_events']} events, {stats['actors_analyzed']} actors")
+                print(f"  - Performance: {stats['extraction_time_s']:.3f}s ({stats['events_per_second']:.1f} events/s)")
+            print()
 
 
 if __name__ == "__main__":
