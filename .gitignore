@@ -43,3 +43,8 @@ logs/*
 # Runtime state (persisted simulation state; never versioned)
 state/*
 !state/.gitkeep
+
+# Stress test artifacts (generated during stress testing; never versioned)
+stress_test_results/
+state_backup/
+stress_session_*/
