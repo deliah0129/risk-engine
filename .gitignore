@@ -1,17 +1,21 @@
-# =========================
+# =============================
 # Python
-# =========================
+# =============================
 __pycache__/
 *.py[cod]
 *$py.class
 
+# =============================
 # Virtual environments
+# =============================
 .venv/
 venv/
 env/
 ENV/
 
-# Packaging / build
+# =============================
+# Packaging / build artifacts
+# =============================
 build/
 dist/
 *.egg-info/
@@ -20,23 +24,22 @@ pip-wheel-metadata/
 .coverage
 htmlcov/
 
+# =============================
 # Editors / OS junk
+# =============================
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
 
-# =========================
-# Project-specific
-# =========================
-# Logs are runtime output (do not version)
+# =============================
+# Project-specific (RISK Engine)
+# =============================
+
+# Runtime logs (generated during execution; never versioned)
 logs/*
-logs/**/*.log
+!logs/.gitkeep
 
-# State is persisted runtime data (do not version)
+# Runtime state (persisted simulation state; never versioned)
 state/*
-
-
-# State is persisted runtime data (do not version)
-state/
-*.json
+!state/.gitkeep
