@@ -3,10 +3,12 @@ import json
 from pathlib import Path
 
 from main import load_json
-from phases.phase1 import run_phase1
+from phases.phase2 import run_phase_2
 
+# Paths
+REPO_ROOT = Path(__file__).resolve().parents[2]
 GOLDEN_DIR = Path(__file__).parent
-SESSION_PATH = Path("state/session.json")
+SESSION_PATH = REPO_ROOT / "state" / "session.json"
 
 
 def main() -> None:
@@ -16,12 +18,12 @@ def main() -> None:
 
     if not SESSION_PATH.exists():
         raise FileNotFoundError(
-            f"Missing {SESSION_PATH}. Run Phase 0 first (python main.py) and CONFIRM."
+            f"Missing {SESSION_PATH}. Run main.py first and CONFIRM Phase 0."
         )
 
     session = load_json(SESSION_PATH)
 
-    consequences = run_phase1(
+    consequences = run_phase_2(
         session=session,
         window=args.window,
         record_consequences=True,
