@@ -32,3 +32,31 @@ From the repository root:
 
 ```bash
 python main.py
+---
+```
+## Expected Output
+
+On first run, the engine will:
+
+- Prompt for game mode and difficulty (Phase 0)
+- Persist a session file to `state/session.json`
+- On confirmation, advance to Phase 1 and generate `state/players.json`
+
+Subsequent runs resume from persisted state and advance the phase router accordingly.
+
+---
+
+## Resetting the Engine
+
+To reset the engine to a clean state, delete the `state/` directory.
+
+All runtime state is regenerated deterministically from user input.
+
+---
+
+## State & Logs
+
+- Persistent state is stored in `state/` as JSON files
+- Runtime logs are written to `logs/engine_log.txt`
+
+State files are authoritative. Logs are diagnostic only.
