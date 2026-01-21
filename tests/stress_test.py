@@ -17,6 +17,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from derived.consequence_extractor import extract_consequences
 
 
+import argparse
+
+
+# Default test configurations
+DEFAULT_TEST_CONFIGS = [
+    {"num_actors": 50, "num_turns": 100, "events_per_turn": 20, "window": 10},
+    {"num_actors": 100, "num_turns": 200, "events_per_turn": 30, "window": 15},
+]
+
+
 def generate_stress_events(
     num_actors: int = 50,
     num_turns: int = 100,
@@ -28,7 +38,7 @@ def generate_stress_events(
     Args:
         num_actors: Number of different actors to simulate
         num_turns: Number of turns to simulate
-        events_per_turn: Average number of events per turn
+        events_per_turn: Number of events per turn
         
     Returns:
         List of event dictionaries
@@ -209,15 +219,10 @@ def main():
         stats = run_stress_test(**config)
         print_stress_test_results(stats)
     else:
-        # Test configuration
-        test_configs = [
-            {"num_actors": 50, "num_turns": 100, "events_per_turn": 20, "window": 10},
-            {"num_actors": 100, "num_turns": 200, "events_per_turn": 30, "window": 15},
-        ]
-        
+        # Use default test configurations
         all_results = []
         
-        for config in test_configs:
+        for config in DEFAULT_TEST_CONFIGS:
             stats = run_stress_test(**config)
             print_stress_test_results(stats)
             all_results.append(stats)
