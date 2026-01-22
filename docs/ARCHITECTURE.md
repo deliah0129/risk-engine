@@ -1,4 +1,46 @@
-# Risk Engine — Architecture Overview (v0.1)
+# Architecture Overview — Governed Expansion (v0.1)
+
+This document defines how the engine may evolve after Freeze v0.1.
+It describes attachment surfaces and execution boundaries, not mechanics.
+
+## Authority
+This document is subordinate to:
+- FREEZE_v0_1.md
+- The Execution Grammar defined in code
+
+If a conflict exists, this document is invalid.
+
+## Core Execution Invariants
+The following rules are enforced by structure and may not be bypassed:
+
+1. Phase execution occurs in fixed order.
+2. Actions are validated before Resolution.
+3. State mutation occurs only during Resolution.
+4. Derived or observer-facing state does not affect legality.
+
+## Approved Attachment Surfaces
+
+### Phases
+- New phases may be appended only after Phase 1.
+- Phases may prepare data or proposals.
+- Phases may not commit state directly.
+
+### Modules
+- Modules are optional, self-contained systems.
+- Modules may propose effects during Resolution.
+- Modules may not redefine actors, objects, verbs, phases, or authority.
+
+### Scenarios
+- Scenarios configure module enablement and evaluation context.
+- Scenarios may bind AI doctrine.
+- Scenarios may not introduce new rules, verbs, or objects.
+
+## Explicit Non-Surfaces
+The following are not extension points:
+- Action validation logic
+- Execution grammar
+- State persistence format
+- Governance constraints
 
 ## Overview
 
