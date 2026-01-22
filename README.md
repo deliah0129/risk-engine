@@ -13,6 +13,8 @@ The engine is designed to:
 
 This slice is intentionally **infrastructure-first**.
 
+Freeze v0.1 scope; document downstream-only work
+
 ---
 
 ## What “Engine Slice” Means
