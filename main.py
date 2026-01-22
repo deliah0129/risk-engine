@@ -1,3 +1,20 @@
+# ==============================
+# CI / Proof Run Guard
+# ==============================
+import os
+import sys
+
+def _truthy(name: str) -> bool:
+    return os.getenv(name, "").strip().lower() in {"1", "true", "yes", "on"}
+
+RUN_MODE = os.getenv("RISK_RUN_MODE", "").strip().lower()
+IS_CI = _truthy("CI")
+
+PROOF_MODE = RUN_MODE == "proof" or (IS_CI and RUN_MODE != "normal")
+
+if PROOF_MODE:
+    print("Proof run OK (observer-only). No state created.")
+    sys.exit(0)
 from pathlib import Path
 import json
 from datetime import datetime, timezone
@@ -72,3 +89,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
