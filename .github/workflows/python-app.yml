@@ -2,7 +2,7 @@ name: Risk Engine Proof Run
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -18,6 +18,29 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Run engine
+      # -------------------------
+      # v0.1 proof run (unchanged)
+      # -------------------------
+      - name: Proof run (observer-only)
         run: |
           python main.py
+
+      # -------------------------
+      # v0.2 scenarios (Phase 6–7)
+      # -------------------------
+      - name: Scenario: stable
+        run: |
+          RISK_SCENARIO=stable RISK_TURNS=10 RISK_SEED=1337 python main.py
+
+      - name: Scenario: stressed
+        run: |
+          RISK_SCENARIO=stressed RISK_TURNS=10 RISK_SEED=1337 python main.py
+
+      - name: Scenario: collapse (expected)
+        continue-on-error: true
+        run: |
+          RISK_SCENARIO=collapse RISK_TURNS=10 RISK_SEED=1337 python main.py
+
+      - name: Assert collapse occurred
+        run: |
+          grep -R "COLLAPSE" logs || (echo "Expected COLLAPSE not found" && exit 1)
