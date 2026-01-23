@@ -64,24 +64,31 @@ def main() -> None:
         return
 
     session = load_json(SESSION_FILE)
-    phase = int(session.get("phase", 0))
+    phase = int(session.get("phase", -1))
 
-    # ---- Phase 3: Turn Skeleton ----
-    if phase >= 2:
+    # ---- Phase routing ----
+
+    # Phase 1 → Country Selection (Phase 2 stub)
+    if phase == 1:
+        from phases.phase2 import run_phase_2
+        run_phase_2()
+        return
+
+    # Phase 2 → Initial Resources (Phase 3)
+    if phase == 2:
         from phases.phase3 import run_phase_3
         run_phase_3()
         return
 
-    # ---- Phase 2 placeholder ----
-    if phase == 1:
-        print("Session already at Phase 1.")
-        print("Next station: Phase 2 (Country Selection).")
-        print("Run will be updated when Phase 2 is implemented.")
-        log("ROUTER: PHASE 1 STUB")
+    # Phase 3 → Turn Order (Phase 6)
+    if phase == 3:
+        from phases.phase6 import run_phase_6
+        run_phase_6()
         return
 
-    print("Unknown session phase.")
-    log("ROUTER: UNKNOWN PHASE")
+    print(f"Unknown session phase: {phase}")
+    log(f"ROUTER: UNKNOWN PHASE {phase}")
+
 
 # =========================
 # Entry
@@ -89,4 +96,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
