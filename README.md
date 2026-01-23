@@ -1,49 +1,57 @@
-## Current State: Engine Slice (Governed Simulation Core)
+# risk-engine
 
-This repository represents a **governed engine slice**, not a traditional “playable game demo.”
+This is a hobby project exploring a deterministic strategy simulation engine.
 
-At its current stage, the project implements the **core execution infrastructure** for a larger simulation system. The focus is on correctness, rule enforcement, and safe state progression, rather than user interaction or presentation.
+I’m interested in what happens when you strip a strategy game down to:
+- explicit phases
+- clearly defined state
+- reproducible outcomes
 
-The engine is designed to:
-- Enforce strict phase order and execution rules
-- Persist and validate session state across runs
-- Refuse invalid execution paths instead of attempting recovery
-- Produce audit-friendly logs for inspection and testing
-- Support deterministic behavior and repeatable runs
+There’s no UI, no polish, and no finished “game” here yet — that’s intentional.
+Right now this repo is about structure and mechanics, not presentation.
 
-This slice is intentionally **infrastructure-first**.
+## What’s here
 
-Freeze v0.1 scope; document downstream-only work
+The engine runs through a small number of clearly separated phases.
+Each phase has a specific job and operates on explicit state.
 
----
+The focus is on:
+- determinism (same input → same outcome)
+- inspectable state
+- predictable resolution order
 
-## What “Engine Slice” Means
+If something feels overly explicit, that’s on purpose.
 
-An *engine slice* is a minimal but complete portion of the system that can be executed end-to-end and evaluated on its own.
+## What this is *not*
 
-In practical terms, this means:
-- The engine can start, halt, resume, and advance safely
-- State transitions occur only at defined resolution points
-- Invalid actions or phase skips are explicitly blocked
-- The system can be extended without refactoring the core
+This is not:
+- a playable game
+- a finished engine
+- a performance benchmark
+- a comparison to commercial strategy games
 
-This mirrors how real systems are built in practice, where control logic and governance are validated before any UI, automation, or content layers are added.
+Those might come later, or they might not. That’s fine.
 
----
+## Repo layout (roughly)
 
-## What Is Intentionally Not Included (Yet)
+- `main.py` — entry point
+- `phases/` — phase-by-phase execution logic
+- `state/` — serialized game/session state
+- `logs/` — runtime output for inspection
+- `tests/` — checks around determinism and behavior
 
-This slice does **not** include:
-- A graphical interface
-- Player interaction loops
-- Visualization or presentation layers
-- Autonomous agents making decisions on their own
+## Current status
 
-These are downstream consumers of the engine and are excluded by design, not omission.
+This project is actively tinkered with.
+Some parts are solid, others are evolving.
 
----
+If you want a clearer snapshot of where things stand right now, see `STATUS.md`.
 
-## How to Run
+## Why I’m building this
 
-```bash
-py main.py
+Mostly because I enjoy:
+- systems that explain themselves
+- engines that are easy to reason about
+- simulations where outcomes aren’t mysterious
+
+If you’re curious, feel free to poke around.
